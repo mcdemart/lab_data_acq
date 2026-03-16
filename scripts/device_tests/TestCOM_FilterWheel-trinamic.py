@@ -8,8 +8,8 @@ class FirstEventHandler:
 		
 fw = win32com.client.Dispatch("SciencetechCom.SciFilterWheel_API")
 win32com.client.WithEvents(fw, FirstEventHandler)
-print (fw.SetClassName("StepperMotor_FilterWheel.FilterWheel", "C:\Program Files (x86)\Sciencetech\SciencetechCOM\SciModules\StepperMotor_FilterWheel.dll"))
-print (fw.SetConfigFile("C:\ProgramData\Sciencetech\SciencetechCOM\SciModules\Config\StepperMotorFilterWheel.config"))
+print (fw.SetClassName("StepperMotor_FilterWheel.FilterWheel", r"C:\Program Files (x86)\Sciencetech\SciencetechCOM\SciModules\StepperMotor_FilterWheel.dll"))
+print (fw.SetConfigFile(r"C:\ProgramData\Sciencetech\SciencetechCOM\SciModules\Config\StepperMotorFilterWheel.config"))
 numFilters = fw.NumberOfFilters
 print (numFilters)
 s = ""  # define a string variable

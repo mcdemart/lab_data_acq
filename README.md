@@ -1,62 +1,94 @@
 # lab_data_acq
 
-Windows-based lab data acquisition workspace for controlling a Sciencetech monochromator, filter wheel, and lamp power supply, while capturing camera frames and spectrometer data.
+Windows-based lab data acquisition workspace for Sciencetech hardware control, Allied Vision camera capture, and spectrometer measurements.
 
 ## Repository Layout
 
-- `Scripts/`
-  - Main working scripts for acquisition, device control, and validation.
-  - `data_acq_copilot_vimba.py` is the primary end-to-end acquisition workflow.
-  - `apalo_frame_capture.py` is a standalone Allied Vision FITS capture utility.
-- `Python_Example/`
-  - Vendor example scripts for the Sciencetech COM API.
-- `Operating Instructions/`
-  - Vendor manuals and operating documentation.
-- `QC Documentation/`
-  - Vendor QC and acceptance-test documentation.
+- `scripts/acquisition/`
+  - Main data-taking workflows.
+- `scripts/device_tests/`
+  - Hardware bring-up, COM connection checks, and manual control utilities.
+- `scripts/analysis/`
+  - Small analysis and validation scripts for saved data or logs.
+- `scripts/vendor_examples/`
+  - Vendor-provided Sciencetech example scripts kept for reference.
+- `docs/manuals/`
+  - Vendor operating manuals.
+- `docs/qc/`
+  - Vendor QC and acceptance-test documents.
+- `Software/`
+  - Local installer bundle and vendor binaries.
+  - Excluded from Git by `.gitignore`.
 
-## Main Scripts
+## Custom Scripts
 
-- `Scripts/data_acq_copilot_vimba.py`
-  - Initializes Sciencetech COM devices.
-  - Homes the monochromator and filter wheel.
-  - Controls lamp power state and output percentage.
-  - Acquires dark frames from the camera and spectrometer.
-  - Sweeps wavelength and lamp power.
-  - Saves FITS, PNG, and NumPy outputs for each acquisition point.
+- `scripts/acquisition/data_acq_copilot_vimba.py`
+  - End-to-end acquisition sweep across wavelength and lamp power.
+  - Uses Sciencetech COM APIs, `vmbpy`, and `seabreeze`.
+- `scripts/acquisition/apalo_frame_capture.py`
+  - Allied Vision FITS capture utility with CLI options, triggering modes, and live view.
+- `scripts/device_tests/simple_wavelength_select.py`
+  - Manual homing and wavelength selection for the monochromator and filter wheel.
+- `scripts/analysis/spectrometer_darks.py`
+  - Spectrometer dark-frame collection and plotting.
+- `scripts/analysis/lamp_power_tests.py`
+  - Plotter for lamp power monitor CSV output.
+- `scripts/analysis/test_fits.py`
+  - Quick FITS inspection utility.
 
-- `Scripts/apalo_frame_capture.py`
-  - Captures one or more frames from an Allied Vision camera using `vmbpy`.
-  - Supports free-run and software-trigger modes.
-  - Writes FITS files with metadata headers.
-  - Includes optional interactive capture and live view.
+## Vendor Scripts
 
-- `Scripts/simple_wavelength_select.py`
-  - Manual wavelength selection and homing script for the monochromator and filter wheel.
+- `scripts/vendor_examples/Example-using pythoncom(pywin32).py`
+- `scripts/vendor_examples/TestCOM_FilterWheel-trinamic.py`
+- `scripts/vendor_examples/TestCOM_LampPower.py`
+- `scripts/vendor_examples/TestCOM_Mono9055.py`
+- `scripts/device_tests/grab_single_frame.py`
+- `scripts/device_tests/windows_setup.py`
 
-- `Scripts/spectrometer_darks.py`
-  - Simple spectrometer dark-frame collection and plotting utility.
+## Required Hardware And Software
 
-- `Scripts/grab_single_frame.py`
-  - Basic single-frame capture example for a Thorlabs camera.
+Hardware:
 
-## Environment Notes
+- Sciencetech monochromator
+- Sciencetech filter wheel
+- Sciencetech lamp power supply
+- Allied Vision camera
+- Compatible spectrometer supported by `seabreeze`
 
-This repository is intended for a Windows lab environment with vendor software installed locally. The scripts assume access to:
+Software:
 
-- Sciencetech COM components via `win32com.client`
-- Allied Vision Vimba X Python API via `vmbpy`
-- Ocean Insight spectrometer access via `seabreeze`
-- FITS handling via `astropy`
-- Plotting and array tools such as `matplotlib`, `numpy`, and `opencv-python`
+- Windows with Sciencetech COM components installed
+- Python with `pywin32`, `vmbpy`, `seabreeze`, `astropy`, `numpy`, `matplotlib`, `opencv-python`
+- Optional `pandas` for lamp power CSV plotting
 
-Some scripts also assume fixed local installation paths such as:
+Several scripts assume local Sciencetech install paths such as:
 
 - `C:\Program Files (x86)\Sciencetech\SciencetechCOM\...`
 - `C:\ProgramData\Sciencetech\SciencetechCOM\...`
 
+## Which Script To Run
+
+- Full acquisition sweep:
+  - `python scripts/acquisition/data_acq_copilot_vimba.py --help`
+- Camera-only FITS capture:
+  - `python scripts/acquisition/apalo_frame_capture.py --help`
+- Manual wavelength move and homing:
+  - `python scripts/device_tests/simple_wavelength_select.py`
+- Lamp COM check:
+  - `python scripts/device_tests/TestCOM_LampPower.py`
+- Monochromator COM check:
+  - `python scripts/device_tests/TestCOM_Mono9055.py`
+- Filter wheel COM check:
+  - `python scripts/device_tests/TestCOM_FilterWheel-trinamic.py`
+- Spectrometer darks:
+  - `python scripts/analysis/spectrometer_darks.py`
+- Lamp power CSV plots:
+  - `python scripts/analysis/lamp_power_tests.py`
+- Inspect a FITS file:
+  - `python scripts/analysis/test_fits.py path/to/file.fits`
+
 ## Version Control Notes
 
-- Vendor manuals and example scripts are kept in this repository for reference.
-- Large installer bundles under `Software/` are intentionally excluded by `.gitignore`.
-- Generated acquisition outputs such as FITS, NumPy arrays, plots, and run directories are also ignored.
+- Manuals, QC docs, and vendor example scripts are kept in the repository for reference.
+- `Software/` is ignored to avoid committing large installer binaries.
+- Generated acquisition outputs such as FITS files, NumPy arrays, plots, and run directories are ignored.

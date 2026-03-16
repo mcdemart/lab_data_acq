@@ -26,13 +26,13 @@ print (mono.SetConfigFile("C:/ProgramData/Sciencetech/SciencetechCOM/SciModules/
 
 fw = win32com.client.Dispatch("SciencetechCom.SciFilterWheel_API")
 win32com.client.WithEvents(fw, FirstEventHandler)
-print (fw.SetClassName("StepperMotor_FilterWheel.FilterWheel", "C:\Program Files (x86)\Sciencetech\SciencetechCOM\SciModules\StepperMotor_FilterWheel.dll"))
-print (fw.SetConfigFile("C:\ProgramData\Sciencetech\SciencetechCOM\SciModules\Config\StepperMotorFilterWheel.config"))
+print (fw.SetClassName("StepperMotor_FilterWheel.FilterWheel", r"C:\Program Files (x86)\Sciencetech\SciencetechCOM\SciModules\StepperMotor_FilterWheel.dll"))
+print (fw.SetConfigFile(r"C:\ProgramData\Sciencetech\SciencetechCOM\SciModules\Config\StepperMotorFilterWheel.config"))
 
 mo =  win32com.client.Dispatch("SciencetechCom.SciLampPowerSupply_API")
 win32com.client.WithEvents(mo, FirstEventHandler)
-print (mo.SetClassName("Sci601LampPower.LampPower601", "C:\Program Files (x86)\Sciencetech\SciencetechCOM\SciModules\Sci601LampPower.dll"))
-print (mo.SetConfigFile("C:\ProgramData\Sciencetech\SciencetechCOM\SciModules\Config\SciPowerControl_XE.config"))
+print (mo.SetClassName("Sci601LampPower.LampPower601", r"C:\Program Files (x86)\Sciencetech\SciencetechCOM\SciModules\Sci601LampPower.dll"))
+print (mo.SetConfigFile(r"C:\ProgramData\Sciencetech\SciencetechCOM\SciModules\Config\SciPowerControl_XE.config"))
 
 # %%
 # # set up lamp
